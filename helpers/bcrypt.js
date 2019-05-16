@@ -1,13 +1,12 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+const salt = bcrypt.genSaltSync(saltRounds)
 
 module.exports = {
-    encrypt: function (plainPassword) {
-        var salt = bcrypt.genSaltSync(Number(process.env.SALT))
-        var hash = bcrypt.hashSync(plainPassword, salt)
-        return hash
+    hashPassword: (password) => {
+        return bcrypt.hashSync(password, salt)
     },
-
-    compare: function (input, password) {
-        return bcrypt.compareSync(input, password)
+    comparePassword: (password, hash) => {
+        return bcrypt.compareSync(password, hash)
     }
 }
