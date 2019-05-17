@@ -46,6 +46,9 @@ const userSchema = new Schema ({
             message: 'Password must contain at least one letter, one number, and minimum six characters'
         }
     },
+    score: {
+        type: Number
+    }
 }, {
     timestamps: {}
 })
