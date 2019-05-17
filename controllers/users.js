@@ -72,7 +72,8 @@ class userController {
         }, {
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            score: req.body.score
         }, {
             new: true
         })
