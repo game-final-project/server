@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const routes = require('./routes')
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@db-mini-willy-w30vg.gcp.mongodb.net/finalProject?retryWrites=true`, { useNewUrlParser: true })

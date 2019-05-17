@@ -30,10 +30,11 @@ after(function (done) {
 
 let idUser = ''
 let tokenUser = ''
+let fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjZGUzYWVmZTU3ZWExMjdjNzkzN2U4OCIsImlhdCI6MTU1ODA2Nzk1Mn0.TDPDDMOD4Qa0z0hnm17XFDH-45I-LssJOBLo8-nJ5ps'
 
 describe('REGISTER USER TEST', function () {
     describe('success', () => {
-        it('Should make sure that usercan register /register with POST request', function (done) {
+        it('Should make sure that user can register /register with POST request', function (done) {
             const user = {
                 username: 'willy',
                 email: 'willy@gmail.com',
@@ -195,137 +196,104 @@ describe('LOGIN TEST', () => {
     })
 })
 
-// describe('GET USER BY ID TEST', () => {
-//     describe('success', () => {
-//         it(`Should make sure that user can get user by id /users/:id/:userId with GET request`, function (done) {
-//             chai
-//                 .request(app)
-//                 .get(`/users/${idAdmin}/${idUser}`)
-//                 .set({ token: tokenAdmin })
-//                 .end(function (err, res) {
-//                     should.not.exist(err)
-//                     res.should.have.status(200)
-//                     res.body.should.to.be.an('object')
-//                     res.body.should.have.property('_id')
-//                     res.body.should.have.property('name')
-//                     res.body.should.have.property('email')
-//                     res.body.should.have.property('role')
-//                     res.body._id.should.to.be.a('string')
-//                     res.body.name.should.to.be.a('string')
-//                     res.body.email.should.to.be.a('string')
-//                     res.body.role.should.to.be.a('string')
-//                     res.body.role.should.equal('user')
-//                     done()
-//                 })
-//         })
-//     })
+describe('PUT USER BY ID TEST', () => {
+    describe('success', () => {
+        it(`Should make sure that user can update info /users/:id with PUT request`, function (done) {
+            const user = {
+                username: 'willy3',
+                email: 'willy3@gmail.com',
+                password: '1Qazxc'
+            }
+            chai
+                .request(app)
+                .put(`/users/${idUser}`)
+                .set({ token: tokenUser })
+                .send(user)
+                .end(function (err, res) {
+                    should.not.exist(err)
+                    res.should.have.status(200)
+                    res.body.should.to.be.an('object')
+                    res.body.should.have.property('_id')
+                    res.body.should.have.property('username')
+                    res.body.should.have.property('email')
+                    res.body.should.have.property('password')
+                    res.body._id.should.to.be.a('string')
+                    res.body.username.should.to.be.a('string')
+                    res.body.email.should.to.be.a('string')
+                    res.body.password.should.to.be.a('string')
+                    done()
+                })
+        })
+    })
 
-//     describe('failed', () => {
-//         it(`Should make sure that user must authorized /users/:id/:userId with GET request`, function (done) {
-//             chai
-//                 .request(app)
-//                 .get('/users/12345')
-//                 .set({ token: tokenUser })
-//                 .end(function (err, res) {
-//                     res.body.should.to.be.an('object')
-//                     res.body.should.be.have.property('message')
-//                     res.body.message.should.equal('Unauthorized')
-//                     res.should.have.status(401)
-//                     done()
-//                 })
-//         })
-//     })
-// })
+    describe('failed', () => {
+        it(`Should make sure that user must authenticated for update info /users/:id with PUT request`, function (done) {
+            chai
+                .request(app)
+                .put('/users/12345')
+                .set({ token: tokenUser })
+                .end(function (err, res) {
+                    res.body.should.to.be.an('object')
+                    res.body.should.be.have.property('message')
+                    res.body.message.should.equal('Unauthorized')
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+    })
+})
 
-// describe('PUT USER BY ID TEST', () => {
-//     describe('success', () => {
-//         it(`Should make sure that user can update info /users/:id with PUT request`, function (done) {
-//             const user = {
-//                 name: 'willy3',
-//                 email: 'willy3@gmail.com',
-//                 password: '1Qazxc'
-//             }
-//             chai
-//                 .request(app)
-//                 .put(`/users/${idUser}`)
-//                 .set({ token: tokenUser })
-//                 .send(user)
-//                 .end(function (err, res) {
-//                     should.not.exist(err)
-//                     res.should.have.status(200)
-//                     res.body.should.to.be.an('object')
-//                     res.body.should.have.property('_id')
-//                     res.body.should.have.property('name')
-//                     res.body.should.have.property('email')
-//                     res.body.should.have.property('password')
-//                     res.body.should.have.property('role')
-//                     res.body._id.should.to.be.a('string')
-//                     res.body.name.should.to.be.a('string')
-//                     res.body.email.should.to.be.a('string')
-//                     res.body.password.should.to.be.a('string')
-//                     res.body.role.should.to.be.a('string')
-//                     done()
-//                 })
-//         })
-//     })
+describe('GET ALL USER TEST', () => {
+    describe('success', () => {
+        it(`Should make sure that we can get all user /users with GET request`, function (done) {
+            chai
+                .request(app)
+                .get(`/users`)
+                .set({ token: tokenUser })
+                .end(function (err, res) {
+                    should.not.exist(err)
+                    res.should.have.status(200)
+                    res.body.should.to.be.an('array')
+                    res.body[0].should.have.property('_id')
+                    res.body[0].should.have.property('username')
+                    res.body[0].should.have.property('email')
+                    res.body[0]._id.should.to.be.a('string')
+                    res.body[0].username.should.to.be.a('string')
+                    res.body[0].email.should.to.be.a('string')
+                    done()
+                })
+        })
+    })
 
-//     describe('failed', () => {
-//         it(`Should make sure that user must authorized /users/:id with PUT request`, function (done) {
-//             chai
-//                 .request(app)
-//                 .get('/users/12345')
-//                 .set({ token: tokenUser })
-//                 .end(function (err, res) {
-//                     res.body.should.to.be.an('object')
-//                     res.body.should.be.have.property('message')
-//                     res.body.message.should.equal('Unauthorized')
-//                     res.should.have.status(401)
-//                     done()
-//                 })
-//         })
-//     })
-// })
+    describe('failed', () => {
+        it(`Should make sure that user must provide token /users with GET request`, function (done) {
+            chai
+                .request(app)
+                .get(`/users`)
+                .end(function (err, res) {
+                    res.body.should.to.be.an('object')
+                    res.body.should.be.have.property('message')
+                    res.body.message.should.equal('Please provide a valid token')
+                    res.should.have.status(401)
+                    done()
+                })
+        })
 
-// describe('GET ALL USER TEST', () => {
-//     describe('success', () => {
-//         it(`Should make sure that just role === 'admin' can get all user /users with GET request`, function (done) {
-//             chai
-//                 .request(app)
-//                 .get(`/users`)
-//                 .set({ token: tokenAdmin })
-//                 .end(function (err, res) {
-//                     should.not.exist(err)
-//                     res.should.have.status(200)
-//                     res.body.should.to.be.an('array')
-//                     res.body[0].should.have.property('_id')
-//                     res.body[0].should.have.property('name')
-//                     res.body[0].should.have.property('email')
-//                     res.body[0].should.have.property('role')
-//                     res.body[0]._id.should.to.be.a('string')
-//                     res.body[0].name.should.to.be.a('string')
-//                     res.body[0].email.should.to.be.a('string')
-//                     res.body[0].role.should.to.be.a('string')
-//                     done()
-//                 })
-//         })
-//     })
-
-//     describe('failed', () => {
-//         it(`Should make sure that user must authorized /users/:id/:userId with GET request`, function (done) {
-//             chai
-//                 .request(app)
-//                 .get('/users/12345')
-//                 .set({ token: tokenUser })
-//                 .end(function (err, res) {
-//                     res.body.should.to.be.an('object')
-//                     res.body.should.be.have.property('message')
-//                     res.body.message.should.equal('Unauthorized')
-//                     res.should.have.status(401)
-//                     done()
-//                 })
-//         })
-//     })
-// })
+        it(`Should make sure that user must authorized /users with GET request`, function (done) {
+            chai
+                .request(app)
+                .get(`/users`)
+                .set({ token: fakeToken })
+                .end(function (err, res) {
+                    res.body.should.to.be.an('object')
+                    res.body.should.be.have.property('message')
+                    res.body.message.should.equal('Unauthorized')
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+    })
+})
 
 // describe('DELETE USER TEST', () => {
 //     describe('success', () => {

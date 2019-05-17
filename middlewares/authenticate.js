@@ -23,12 +23,12 @@ module.exports = {
                 }
             })
             .catch(err => {
-                res.send(500).json({
+                res.status(500).json({
                     message: err.message
                 })
             })
         } else {
-            res.send(401).json({
+            res.status(401).json({
                 message: 'Please provide a valid token'
             })
         }
