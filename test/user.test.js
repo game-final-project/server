@@ -1,7 +1,9 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const should = chai.should()
+const sinon = require('sinon');
 const app = require('../app')
+const mongoose = require('mongoose')
 const { User } = require('../models')
 
 chai.use(chaiHttp)
@@ -10,6 +12,7 @@ before(function (done) {
     User
         .deleteMany({})
         .then(function () {
+            sinon.restore();
             done();
         })
         .catch(function (err) {
@@ -21,6 +24,7 @@ after(function (done) {
     User
         .deleteMany({})
         .then(function () {
+            sinon.restore();
             done();
         })
         .catch(function (err) {
@@ -142,6 +146,14 @@ describe('REGISTER USER TEST', function () {
                     done()
                 })
         })
+
+        // it(`Should make sure to catch when server error /register with POST request`, function (done) {
+        //     sinon.stub(mongoose.Model, 'find').callsFake(function () {
+        //         return new Promise((resolve, reject) => {
+        //             reject('testing')
+        //         })
+        //     })
+        // })
     })
 })
 
@@ -202,7 +214,8 @@ describe('PUT USER BY ID TEST', () => {
             const user = {
                 username: 'willy3',
                 email: 'willy3@gmail.com',
-                password: '1Qazxc'
+                password: '1Qazxc',
+                score: 50
             }
             chai
                 .request(app)
@@ -217,10 +230,12 @@ describe('PUT USER BY ID TEST', () => {
                     res.body.should.have.property('username')
                     res.body.should.have.property('email')
                     res.body.should.have.property('password')
+                    res.body.should.have.property('score')
                     res.body._id.should.to.be.a('string')
                     res.body.username.should.to.be.a('string')
                     res.body.email.should.to.be.a('string')
                     res.body.password.should.to.be.a('string')
+                    res.body.score.should.to.be.a('number')
                     done()
                 })
         })
