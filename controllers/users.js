@@ -44,7 +44,8 @@ class userController {
                     id: user.id,
                     username: user.username,
                     email: user.email,
-                    token: token
+                    token: token,
+                    score: user.score
                 })
             } else {
                 res.status(400).json({
