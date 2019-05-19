@@ -61,6 +61,7 @@ class userController {
     static getAllUser (req, res) {
         User.find({})
         .sort({score: 'desc'})
+        .limit(5)
         .then(users => {
             res.status(200).json(users)
         })
