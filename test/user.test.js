@@ -255,6 +255,33 @@ describe('PUT USER BY ID TEST', () => {
                     done()
                 })
         })
+
+        it(`Should make sure that user must use user's token /users with GET request`, function (done) {
+            chai
+                .request(app)
+                .put(`/users/${idUser}`)
+                .set({ token: fakeToken })
+                .end(function (err, res) {
+                    res.body.should.to.be.an('object')
+                    res.body.should.be.have.property('message')
+                    res.body.message.should.equal('Unauthorized')
+                    res.should.have.status(401)
+                    done()
+                })
+        })
+        
+        it(`Should make sure that user must provide token /users with GET request`, function (done) {
+            chai
+                .request(app)
+                .put(`/users/${idUser}`)
+                .end(function (err, res) {
+                    res.body.should.to.be.an('object')
+                    res.body.should.be.have.property('message')
+                    res.body.message.should.equal('Please provide a valid token')
+                    res.should.have.status(401)
+                    done()
+                })
+        })
     })
 })
 
@@ -264,7 +291,6 @@ describe('GET ALL USER TEST', () => {
             chai
                 .request(app)
                 .get(`/users`)
-                .set({ token: tokenUser })
                 .end(function (err, res) {
                     should.not.exist(err)
                     res.should.have.status(200)
@@ -275,35 +301,6 @@ describe('GET ALL USER TEST', () => {
                     res.body[0]._id.should.to.be.a('string')
                     res.body[0].username.should.to.be.a('string')
                     res.body[0].email.should.to.be.a('string')
-                    done()
-                })
-        })
-    })
-
-    describe('failed', () => {
-        it(`Should make sure that user must provide token /users with GET request`, function (done) {
-            chai
-                .request(app)
-                .get(`/users`)
-                .end(function (err, res) {
-                    res.body.should.to.be.an('object')
-                    res.body.should.be.have.property('message')
-                    res.body.message.should.equal('Please provide a valid token')
-                    res.should.have.status(401)
-                    done()
-                })
-        })
-
-        it(`Should make sure that user must authorized /users with GET request`, function (done) {
-            chai
-                .request(app)
-                .get(`/users`)
-                .set({ token: fakeToken })
-                .end(function (err, res) {
-                    res.body.should.to.be.an('object')
-                    res.body.should.be.have.property('message')
-                    res.body.message.should.equal('Unauthorized')
-                    res.should.have.status(401)
                     done()
                 })
         })
