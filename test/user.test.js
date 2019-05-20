@@ -9,6 +9,7 @@ const { User } = require('../models')
 chai.use(chaiHttp)
 
 before(function (done) {
+    this.enableTimeouts(false)
     User
         .deleteMany({})
         .then(function () {
@@ -21,6 +22,7 @@ before(function (done) {
 });
 
 after(function (done) {
+    this.enableTimeouts(false)
     User
         .deleteMany({})
         .then(function () {
