@@ -7,7 +7,7 @@ const cors = require('cors')
 const port = process.env.PORT
 const routes = require('./routes')
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@db-mini-willy-w30vg.gcp.mongodb.net/finalProject?retryWrites=true`, { useNewUrlParser: true })
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@db-mini-willy-w30vg.gcp.mongodb.net/finalProject1?retryWrites=true`, { useNewUrlParser: true })
 
 app.use(cors())
 app.use(express.json())

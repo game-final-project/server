@@ -29,9 +29,6 @@ const userSchema = new Schema ({
                             return false
                         }
                     })
-                    .catch(err => {
-                        return err.message
-                    })
                 },
                 message: 'Email has been used'
             }

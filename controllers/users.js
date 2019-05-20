@@ -21,12 +21,10 @@ class userController {
                 res.status(400).json({
                     message: err.errors.email.message
                 })
-            } else if(err.errors.password) {
+            } else {
                 res.status(400).json({
                     message: err.errors.password.message
                 })
-            } else {
-                res.status(500).json(err)
             }
         })
     }
@@ -53,9 +51,6 @@ class userController {
                 })
             }
         })
-        .catch(err => {
-            res.status(500).json(err)
-        })
     }
 
     static getAllUser (req, res) {
@@ -64,9 +59,6 @@ class userController {
         .limit(5)
         .then(users => {
             res.status(200).json(users)
-        })
-        .catch(err => {
-            res.status(500).json(err)
         })
     }
 
@@ -82,12 +74,7 @@ class userController {
             new: true
         })
         .then(user => {
-            if(user) {
-                res.status(200).json(user)
-            }
-        })
-        .catch(err => {
-            res.status(500).json(err)
+            res.status(200).json(user)
         })
     }
 }
