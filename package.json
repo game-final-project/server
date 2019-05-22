@@ -1,0 +1,47 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/game-final-project/server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/game-final-project/server/issues"
+  },
+  "homepage": "https://github.com/game-final-project/server#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.4",
+    "mongoose": "^5.5.8",
+    "sinon": "^7.3.2"
+  },
+  "devDependencies": {
+    "babel-plugin-istanbul": "^5.1.4",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  }
+}
